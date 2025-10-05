@@ -127,6 +127,7 @@ body {
   position: fixed;
   top: 0%;
   left: 0%;
+  z-index: 1001;
   width: 100%;
   height: 100%;
   background-color: black;
@@ -165,4 +166,66 @@ body {
   right: 5%;
   font-size: 16rem;
   font-weight: 700;
+}
+
+//header
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  font-size: $fontM;
+
+  .header-wrap {
+    max-width: 180.5rem;
+    height: 9.6rem;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-box-wrap {
+      display: flex;
+      gap: 8rem;
+    }
+
+    .menu-box {
+      display: flex;
+      gap: 8rem;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+    }
+    .menu-item.language {
+      a {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border: 1px solid #fff;
+        padding: 0.5rem 1.3rem;
+        border-radius: 99rem;
+
+        svg {
+          width: 2rem;
+        }
+      }
+    }
+    .nav-btn {
+      display: none;
+      //   display: flex;
+      align-items: center;
+
+      svg {
+        width: 30px;
+      }
+    }
+  }
 }
