@@ -1,3 +1,5 @@
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
 const loadingPage = document.querySelector(".loading-page");
 const loadingImg = loadingPage.querySelector("#loading-image");
 let loadingImgArr = [
@@ -25,6 +27,8 @@ for (let i = 0; i < imgArrLength; i++) {
   }, i * 300);
 }
 
+let loadingTime = imgArrLength * 300;
+
 const percentage = loadingPage.querySelector(".percentage--number");
 percentage.textContent = "0";
 
@@ -36,4 +40,165 @@ for (let i = 0; i <= 100; i++) {
 
 setTimeout(() => {
   loadingPage.classList.remove("active");
-}, 5000);
+  mainSwiper__init();
+}, loadingTime);
+
+function mainSwiper__init() {
+  const sec1SwiperEl = document.querySelector(".section-1 .swiper-container");
+  sec1Swiper = new Swiper(sec1SwiperEl, {
+    loop: true,
+    slidesPerView: 1,
+    effect: "fade",
+    autoplay: {
+      delay: 6000,
+      disableOnInteraction: false,
+    },
+  });
+}
+
+function sec2Gsap__init() {
+  const pinWrap = document.querySelector("section.section-2");
+  const spans = pinWrap.querySelectorAll("span.overlay");
+  const texts = pinWrap.querySelectorAll("h2");
+
+  timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: pinWrap,
+      pin: true,
+      start: "top top",
+      end: "+=200%",
+      scrub: 1,
+      // markers: true,
+    },
+  });
+
+  timeline.fromTo(
+    spans,
+    {
+      width: 0,
+    },
+    {
+      width: "100%",
+      duration: 1,
+      stagger: 0.5, //다음 요소 애니메이션 대기시간
+      ease: "none",
+    }
+  );
+}
+sec2Gsap__init();
+
+function sec3Gsap__init() {
+  const target = document.querySelectorAll(".section-3 .portfolio .port-item");
+
+  function getWidth() {
+    let innerWidth = window.innerWidth;
+    let isMobile = innerWidth <= 768;
+
+    return {
+      activeWidth: isMobile ? innerWidth * 0.9 : "60rem",
+      defaultWidth: isMobile ? innerWidth * 0.6 : "34rem",
+    };
+  }
+  let { activeWidth, defaultWidth } = getWidth();
+
+  gsapActive();
+
+  window.addEventListener("resize", () => {
+    ({ activeWidth, defaultWidth } = getWidth());
+    ScrollTrigger.update();
+  });
+
+  function gsapActive() {
+    target.forEach((portCard) => {
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: portCard,
+          start: "top 70%",
+          end: "bottom 30%",
+          scrub: 1,
+        },
+      });
+
+      tl.to(
+        portCard,
+        {
+          width: activeWidth,
+          ease: "none",
+          duration: 0.3,
+        },
+        0
+      ).to(
+        portCard,
+        {
+          width: defaultWidth,
+          ease: "none",
+          duration: 0.3,
+        },
+        0.9
+      );
+    });
+  }
+}
+
+sec3Gsap__init();
+
+// original source code from original site !!
+function sec3GsapAlt__init() {
+  const portItems = document.querySelectorAll(".section-3 .portfolio .port-item");
+  function getResponsiveWidth() {
+    const isMobile = window.innerWidth <= 768;
+
+    return {
+      DefaultWidth: isMobile ? window.innderWidth * 0.6 : "34rem",
+      ActiveWidth: isMobile ? window.innerWidth * 0.9 : "60rem",
+    };
+  }
+  function updateActiveBox() {
+    const { DefaultWidth, ActiveWidth } = getResponsiveWidth();
+    const centerY = window.innerHeight / 2;
+    let minDistance = Infinity;
+    let activeBox = null;
+
+    portItems.forEach((box) => {
+      const boxProperty = box.getBoundingClientRect();
+      const boxCenter = boxProperty.y + boxProperty.height / 2;
+      const distance = Math.abs(centerY - boxCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeBox = box;
+      }
+    });
+
+    portItems.forEach((box) => {
+      gsap.to(box, {
+        width: box == activeBox ? ActiveWidth : DefaultWidth,
+        duration: 0.3,
+        ease: "none",
+      });
+    });
+  }
+
+  let windowWidth = window.innerWidth;
+  const target = document.querySelector(".section-3 .portfolio");
+
+  ScrollTrigger.create({
+    trigger: target,
+    start: "top center",
+    markers: true,
+    onEnter: () => {
+      window.addEventListener("scroll", () => {
+        requestAnimationFrame(updateActiveBox);
+      });
+      window.addEventListener("resize", () => {
+        if (windowWidth == windowWidth) {
+        } else {
+          windowWidth = window.innerWidth;
+          updateActiveBox();
+        }
+      });
+      updateActiveBox();
+    },
+  });
+}
+// sec3GsapAlt__init();
