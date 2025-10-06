@@ -66,9 +66,9 @@ function sec2Gsap__init() {
       trigger: pinWrap,
       pin: true,
       start: "top top",
-      end: "+=2000",
+      end: "+=200%",
       scrub: 1,
-      markers: true,
+      // markers: true,
     },
   });
 
@@ -86,3 +86,119 @@ function sec2Gsap__init() {
   );
 }
 sec2Gsap__init();
+
+function sec3Gsap__init() {
+  const target = document.querySelectorAll(".section-3 .portfolio .port-item");
+
+  function getWidth() {
+    let innerWidth = window.innerWidth;
+    let isMobile = innerWidth <= 768;
+
+    return {
+      activeWidth: isMobile ? innerWidth * 0.9 : "60rem",
+      defaultWidth: isMobile ? innerWidth * 0.6 : "34rem",
+    };
+  }
+  let { activeWidth, defaultWidth } = getWidth();
+
+  gsapActive();
+
+  window.addEventListener("resize", () => {
+    ({ activeWidth, defaultWidth } = getWidth());
+    ScrollTrigger.update();
+  });
+
+  function gsapActive() {
+    target.forEach((portCard) => {
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: portCard,
+          start: "top 70%",
+          end: "bottom 30%",
+          scrub: 1,
+        },
+      });
+
+      tl.to(
+        portCard,
+        {
+          width: activeWidth,
+          ease: "none",
+          duration: 0.3,
+        },
+        0
+      ).to(
+        portCard,
+        {
+          width: defaultWidth,
+          ease: "none",
+          duration: 0.3,
+        },
+        0.9
+      );
+    });
+  }
+}
+
+sec3Gsap__init();
+
+// original source code from original site !!
+function sec3GsapAlt__init() {
+  const portItems = document.querySelectorAll(".section-3 .portfolio .port-item");
+  function getResponsiveWidth() {
+    const isMobile = window.innerWidth <= 768;
+
+    return {
+      DefaultWidth: isMobile ? window.innderWidth * 0.6 : "34rem",
+      ActiveWidth: isMobile ? window.innerWidth * 0.9 : "60rem",
+    };
+  }
+  function updateActiveBox() {
+    const { DefaultWidth, ActiveWidth } = getResponsiveWidth();
+    const centerY = window.innerHeight / 2;
+    let minDistance = Infinity;
+    let activeBox = null;
+
+    portItems.forEach((box) => {
+      const boxProperty = box.getBoundingClientRect();
+      const boxCenter = boxProperty.y + boxProperty.height / 2;
+      const distance = Math.abs(centerY - boxCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeBox = box;
+      }
+    });
+
+    portItems.forEach((box) => {
+      gsap.to(box, {
+        width: box == activeBox ? ActiveWidth : DefaultWidth,
+        duration: 0.3,
+        ease: "none",
+      });
+    });
+  }
+
+  let windowWidth = window.innerWidth;
+  const target = document.querySelector(".section-3 .portfolio");
+
+  ScrollTrigger.create({
+    trigger: target,
+    start: "top center",
+    markers: true,
+    onEnter: () => {
+      window.addEventListener("scroll", () => {
+        requestAnimationFrame(updateActiveBox);
+      });
+      window.addEventListener("resize", () => {
+        if (windowWidth == windowWidth) {
+        } else {
+          windowWidth = window.innerWidth;
+          updateActiveBox();
+        }
+      });
+      updateActiveBox();
+    },
+  });
+}
+// sec3GsapAlt__init();
