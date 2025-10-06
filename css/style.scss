@@ -95,6 +95,8 @@ $fontS: 1.8rem;
 $fontXS: 1.4rem;
 // color
 $bg-color: #7d7d7d;
+// grid size
+$gridSize: 180.5rem;
 
 // html font size
 html {
@@ -216,7 +218,7 @@ body {
   animation: opacity 1s 6.75s 1 both;
 
   .header-wrap {
-    max-width: 180.5rem;
+    max-width: $gridSize;
     height: 9.6rem;
     display: flex;
     margin: 0 auto;
@@ -272,23 +274,76 @@ body {
 .section-1 {
   overflow-x: hidden;
   .iframe-box {
-    position: absolute;
-    user-select: none;
     pointer-events: none;
     width: 100%;
     height: 100%;
     iframe {
-      width: 100vw;
-      height: 56.25vw;
+      width: 100%;
       line-height: 0;
+      object-fit: cover;
+      aspect-ratio: 16/9;
     }
   }
 
   .swiper-container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     .swiper-slide {
       position: relative;
     }
   }
+}
+
+// youtube ui hide
+.youtube-container {
+  overflow: hidden;
+  width: 100%;
+  /* Keep it the right aspect-ratio */
+  aspect-ratio: 16/9;
+  /* No clicking/hover effects */
+  pointer-events: none;
+
+  iframe {
+    /* Extend it beyond the viewport... */
+    width: 300%;
+    height: 100%;
+    /* ...and bring it back again */
+    margin-left: -100%;
+  }
+}
+
+.section-2 {
+  width: 100%;
+  height: 100;
+  .content-wrap {
+    width: 100%;
+    max-width: $gridSize;
+    margin: 0 auto;
+    padding: 15rem 0;
+  }
+}
+
+.section-2 > .content-wrap > h2 {
+  position: relative;
+  font-size: $fontXL;
+  margin-top: 5rem;
+  span.base {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  span.overlay {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    color: #fff;
+    z-index: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.blank {
+  height: 100vh;
+  background-color: #999;
 }

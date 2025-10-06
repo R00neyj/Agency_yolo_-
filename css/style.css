@@ -246,23 +246,72 @@ body {
   overflow-x: hidden;
 }
 .section-1 .iframe-box {
-  position: absolute;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
   pointer-events: none;
   width: 100%;
   height: 100%;
 }
 .section-1 .iframe-box iframe {
-  width: 100vw;
-  height: 56.25vw;
+  width: 100%;
   line-height: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  aspect-ratio: 16/9;
 }
 .section-1 .swiper-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 .section-1 .swiper-container .swiper-slide {
   position: relative;
+}
+
+.youtube-container {
+  overflow: hidden;
+  width: 100%;
+  /* Keep it the right aspect-ratio */
+  aspect-ratio: 16/9;
+  /* No clicking/hover effects */
+  pointer-events: none;
+}
+.youtube-container iframe {
+  /* Extend it beyond the viewport... */
+  width: 300%;
+  height: 100%;
+  /* ...and bring it back again */
+  margin-left: -100%;
+}
+
+.section-2 {
+  width: 100%;
+  height: 100;
+}
+.section-2 .content-wrap {
+  width: 100%;
+  max-width: 180.5rem;
+  margin: 0 auto;
+  padding: 15rem 0;
+}
+
+.section-2 > .content-wrap > h2 {
+  position: relative;
+  font-size: 6rem;
+  margin-top: 5rem;
+}
+.section-2 > .content-wrap > h2 span.base {
+  color: rgba(255, 255, 255, 0.6);
+}
+.section-2 > .content-wrap > h2 span.overlay {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0%;
+  color: #fff;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.blank {
+  height: 100vh;
+  background-color: #999;
 }/*# sourceMappingURL=style.css.map */

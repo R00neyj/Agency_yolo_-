@@ -1,3 +1,5 @@
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
 const loadingPage = document.querySelector(".loading-page");
 const loadingImg = loadingPage.querySelector("#loading-image");
 let loadingImgArr = [
@@ -38,42 +40,49 @@ for (let i = 0; i <= 100; i++) {
 
 setTimeout(() => {
   loadingPage.classList.remove("active");
+  mainSwiper__init();
 }, loadingTime);
 
-const sec1SwiperEl = document.querySelector(".section-1 .swiper-container");
-
-setTimeout(() => {
-  const sec1Swiper = new Swiper(sec1SwiperEl, {
+function mainSwiper__init() {
+  const sec1SwiperEl = document.querySelector(".section-1 .swiper-container");
+  sec1Swiper = new Swiper(sec1SwiperEl, {
     loop: true,
+    slidesPerView: 1,
     effect: "fade",
-    loopedSlides: 1,
-    speed: "600",
     autoplay: {
       delay: 6000,
-      disableOnInteraction: true,
+      disableOnInteraction: false,
     },
   });
-}, loadingTime);
-
-// ⭐ 1. YouTube IFrame API 스크립트를 비동기적으로 로드합니다. (최상단에 한 번만 실행)
-var tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName("script")[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 플레이어 상태 변화 시 실행되는 함수 (이벤트 리스너 역할)
-function onPlayerStateChange(event) {
-  // YT.PlayerState.ENDED 는 비디오가 끝났을 때의 상태 코드(0)입니다.
-  if (event.data === YT.PlayerState.ENDED) {
-    // 영상이 끝났다면:
-
-    // 1. 영상 시작점으로 이동 (seekTo)
-    // 첫 번째 인자: 초 단위, 두 번째 인자: 버퍼링 여부 (true=버퍼링X)
-    event.target.seekTo(0, true);
-
-    // 2. 다시 재생 명령
-    event.target.playVideo();
-
-    console.log("영상 종료 감지! 자동 재생 재시작.");
-  }
 }
+
+function sec2Gsap__init() {
+  const pinWrap = document.querySelector("section.section-2");
+  const spans = pinWrap.querySelectorAll("span.overlay");
+  const texts = pinWrap.querySelectorAll("h2");
+
+  timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: pinWrap,
+      pin: true,
+      start: "top top",
+      end: "+=2000",
+      scrub: 1,
+      markers: true,
+    },
+  });
+
+  timeline.fromTo(
+    spans,
+    {
+      width: 0,
+    },
+    {
+      width: "100%",
+      duration: 1,
+      stagger: 0.5, //다음 요소 애니메이션 대기시간
+      ease: "none",
+    }
+  );
+}
+sec2Gsap__init();
