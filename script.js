@@ -1,9 +1,24 @@
 console.clear();
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+function scrollSmoother__init() {
+  gsap.matchMedia().add("(min-width: 769px)", () => {
+    smoother = ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.25,
+      effects: true,
+    });
+
+    return () => {
+      if (smoother) smoother.kill();
+    };
+  });
+}
+
 function loading__init() {
-  const html = document.querySelector("html");
-  html.style.overflow = "hidden";
+  const body = document.querySelector("body");
+  body.style.overflow = "hidden";
   const loadingPage = document.querySelector(".loading-page");
   const loadingImg = loadingPage.querySelector("#loading-image");
   let loadingImgArr = [
@@ -44,7 +59,7 @@ function loading__init() {
 
   setTimeout(() => {
     loadingPage.classList.remove("active");
-    html.style.overflow = "auto";
+    body.style.overflow = "auto";
   }, loadingTime);
 }
 
@@ -62,20 +77,11 @@ function mainSwiper__init() {
 }
 
 function sec2Gsap__init() {
-  const pinWrap = document.querySelector("section.section-2");
+  const target = document.querySelector(".section-2-wrap");
+  const pinWrap = document.querySelector(".section-2");
   const spans = pinWrap.querySelectorAll("span.overlay");
-  const texts = pinWrap.querySelectorAll("h2");
 
-  timeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: pinWrap,
-      pin: true,
-      start: "top top",
-      end: "+=200%",
-      scrub: 1,
-      // markers: true,
-    },
-  });
+  const timeline = gsap.timeline();
 
   timeline.fromTo(
     spans,
@@ -85,10 +91,18 @@ function sec2Gsap__init() {
     {
       width: "100%",
       duration: 1,
-      stagger: 1, //다음 요소 애니메이션 대기시간
+      stagger: 1,
       ease: "none",
     }
   );
+  const st = ScrollTrigger.create({
+    trigger: pinWrap,
+    pin: true,
+    start: "top top",
+    end: "+=250%",
+    scrub: 1,
+    animation: timeline,
+  });
 }
 
 function sec3Gsap__init() {
@@ -136,67 +150,6 @@ function getWidth() {
     defaultWidth: isMobile ? innerWidth * 0.6 : "34rem",
   };
 }
-
-// original source code from original site !!
-/*function sec3GsapAlt__init() {
-  const portItems = document.querySelectorAll(".section-3 .portfolio .port-item");
-  function getResponsiveWidth() {
-    const isMobile = window.innerWidth <= 768;
-
-    return {
-      DefaultWidth: isMobile ? window.innderWidth * 0.6 : "34rem",
-      ActiveWidth: isMobile ? window.innerWidth * 0.9 : "60rem",
-    };
-  }
-  function updateActiveBox() {
-    const { DefaultWidth, ActiveWidth } = getResponsiveWidth();
-    const centerY = window.innerHeight / 2;
-    let minDistance = Infinity;
-    let activeBox = null;
-
-    portItems.forEach((box) => {
-      const boxProperty = box.getBoundingClientRect();
-      const boxCenter = boxProperty.y + boxProperty.height / 2;
-      const distance = Math.abs(centerY - boxCenter);
-
-      if (distance < minDistance) {
-        minDistance = distance;
-        activeBox = box;
-      }
-    });
-
-    portItems.forEach((box) => {
-      gsap.to(box, {
-        width: box == activeBox ? ActiveWidth : DefaultWidth,
-        duration: 0.3,
-        ease: "none",
-      });
-    });
-  }
-
-  let windowWidth = window.innerWidth;
-  const target = document.querySelector(".section-3 .portfolio");
-
-  ScrollTrigger.create({
-    trigger: target,
-    start: "top center",
-    markers: true,
-    onEnter: () => {
-      window.addEventListener("scroll", () => {
-        requestAnimationFrame(updateActiveBox);
-      });
-      window.addEventListener("resize", () => {
-        if (windowWidth == windowWidth) {
-        } else {
-          windowWidth = window.innerWidth;
-          updateActiveBox();
-        }
-      });
-      updateActiveBox();
-    },
-  });
-}*/
-// sec3GsapAlt__init();
 
 function sec4Gsap__init() {
   const ScrollTarget = document.querySelector(".section-4");
@@ -271,26 +224,18 @@ function mNavToggle() {
 }
 
 // global
-ScrollSmoother.create({
-  wrapper: "#smooth-wrapper",
-  content: "#smooth-content",
-  smooth: 1,
-  effects: true,
-});
 
 // load
+loading__init();
 window.addEventListener("load", () => {
-  loading__init();
-
-  setTimeout(() => {
-    mainSwiper__init();
-    sec2Gsap__init();
-    sec3Gsap__init();
-    sec4Gsap__init();
-    footerMenuSwap();
-    marqueeWidth();
-    mNavToggle();
-  }, 4500);
+  scrollSmoother__init();
+  mainSwiper__init();
+  sec2Gsap__init();
+  sec3Gsap__init();
+  sec4Gsap__init();
+  footerMenuSwap();
+  marqueeWidth();
+  mNavToggle();
 });
 
 // resize
