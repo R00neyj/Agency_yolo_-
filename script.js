@@ -6,7 +6,7 @@ function scrollSmoother__init() {
     smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: 1.25,
+      smooth: 1,
       effects: true,
     });
 
@@ -65,7 +65,7 @@ function loading__init() {
 
 function mainSwiper__init() {
   const sec1SwiperEl = document.querySelector(".section-1 .swiper-container");
-  sec1Swiper = new Swiper(sec1SwiperEl, {
+  const sec1Swiper = new Swiper(sec1SwiperEl, {
     loop: true,
     slidesPerView: 1,
     effect: "fade",
@@ -136,9 +136,10 @@ function sec3Gsap__init() {
       end: "bottom 30%",
       scrub: 1,
       animation: tl,
-      onEnter: () => st.refresh(),
     });
   });
+
+  st.refresh();
 }
 
 function getWidth() {
@@ -164,10 +165,9 @@ function sec4Gsap__init() {
     animation: tl,
     scrub: 3,
     end: "bottom top",
-    onEnter: () => {
-      st.update();
-    },
   });
+
+  st.refresh();
 }
 
 let marqueeAniInstance = null;
@@ -258,5 +258,10 @@ window.addEventListener("resize", () => {
     marqueeWidth();
 
     ScrollTrigger.refresh(true);
+
+    if (ViewportWidth <= 768) {
+      // avoid blank bottom when scrollsmoother is off
+      document.querySelector("body").style.height = "auto";
+    }
   }, 200);
 });
