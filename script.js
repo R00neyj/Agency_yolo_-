@@ -137,9 +137,9 @@ function sec3Gsap__init() {
       scrub: 1,
       animation: tl,
     });
-  });
 
-  st.refresh();
+    st.refresh();
+  });
 }
 
 function getWidth() {

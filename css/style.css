@@ -80,6 +80,7 @@ textarea {
 
 html {
   font-size: max(8px, 0.52083333vw);
+  overflow-x: hidden;
 }
 
 body {
@@ -415,6 +416,7 @@ body {
 }
 .section-3 > .content-wrap > .portfolio .port-item > a {
   display: block;
+  width: 100%;
 }
 .section-3 > .content-wrap > .portfolio .port-item > a > .img-box img {
   width: 100%;
@@ -438,7 +440,7 @@ body {
 }
 .section-4 .content-wrap > .item-container {
   display: flex;
-  gap: 3.8rem;
+  gap: 2vw;
   margin: 0;
   max-width: 100%;
   padding-top: 15rem;
@@ -450,7 +452,7 @@ body {
 .section-4 > .content-wrap > .item-container > .item-box ul {
   display: flex;
   flex-direction: column;
-  gap: 3.8rem;
+  gap: 2vw;
 }
 .section-4 > .content-wrap > .item-container > .item-box ul .img-box > img {
   aspect-ratio: 1.323/1;
@@ -706,21 +708,23 @@ body {
     text-align: center;
   }
   .footer > .content-wrap > .footer-info > .footer-top > .item-2 .now-btn > a {
-    padding: 0.4rem 4rem;
+    padding: 0.6rem 3rem;
     margin-top: 2rem;
   }
   .footer > .content-wrap > .footer-info > .footer-btm {
     flex-direction: column-reverse;
     align-items: center;
     gap: 2rem;
+    margin-top: 3rem;
   }
   .footer > .content-wrap > .footer-info > .footer-btm > .item-3 > .info-grid {
     font-size: 1.8rem;
-    gap: 1rem;
   }
   .footer > .content-wrap > .footer-info > .footer-btm > .item-3 > .info-grid .flex-box {
     justify-content: center;
-    gap: 1rem;
+  }
+  .footer > .content-wrap > .footer-info > .footer-btm > .item-3 > .info-grid .flex-box > li {
+    min-width: 50px;
   }
   .footer > .content-wrap > .footer-info > .footer-btm > .item-4 {
     font-size: 2rem;

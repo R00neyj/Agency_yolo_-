@@ -104,6 +104,7 @@ $gridSize: 180.5rem;
 // html font size
 html {
   font-size: max($font__min, $font__max);
+  overflow-x: hidden;
 }
 
 // body
@@ -461,6 +462,7 @@ body {
 
     > a {
       display: block;
+      width: 100%;
 
       > .img-box {
         img {
@@ -480,7 +482,8 @@ body {
 }
 
 // section 4
-$section4Gap: 3.8rem;
+$section4Gap: 2vw;
+
 .section-4 {
   .content-wrap {
     margin: 0;
@@ -832,7 +835,7 @@ $marquee-gap: 8rem;
         font-size: 2rem;
         text-align: center;
         > a {
-          padding: 0.4rem 4rem;
+          padding: 0.6rem 3rem;
           margin-top: 2rem;
         }
       }
@@ -842,14 +845,16 @@ $marquee-gap: 8rem;
     flex-direction: column-reverse;
     align-items: center;
     gap: 2rem;
+    margin-top: 3rem;
 
     > .item-3 > .info-grid {
       font-size: 1.8rem;
-      gap: 1rem;
 
       .flex-box {
         justify-content: center;
-        gap: 1rem;
+        > li {
+          min-width: 50px;
+        }
       }
     }
 
